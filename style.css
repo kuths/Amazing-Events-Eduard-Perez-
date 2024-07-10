@@ -1,0 +1,25 @@
+.logo{
+    height: 2rem;
+}
+
+.carousel-inner img{
+height: 20vh;
+object-fit: cover;
+}
+footer img{
+    height: 2rem;
+}
+table th {
+  border: solid black 2px;
+  height: 2rem;
+}
+.subtitle_table {
+    text-align: center;
+  }
+  table td {
+    border: solid black 2px;
+  height: 2rem;
+  }
+.medio{
+  height: 85vh;
+}
