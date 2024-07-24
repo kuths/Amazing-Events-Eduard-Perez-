@@ -23,3 +23,12 @@ table th {
 .medio{
   height: 85vh;
 }
+
+.tarjeta{
+ width: 25vh;
+ margin: 1rem;
+}
+.tarjeta img{
+  width: 25vh;
+  height: 14vh;
+}
