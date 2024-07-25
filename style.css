@@ -32,3 +32,8 @@ table th {
   width: 25vh;
   height: 14vh;
 }
+
+.card-text{
+  width: 24vh;
+  height: 10vh;
+}
