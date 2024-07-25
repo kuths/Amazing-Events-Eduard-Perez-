@@ -194,11 +194,11 @@ const data = {
     },
   ],
 };
-let currentDate = new Date(data.currentDate)
-let contenedor = document.getElementById("contenedor")
+let currentDate = data.currentDate
 for (let i = 0; i < data.events.length; i++) {
-  let eventDate = new Date(data.events[i].date);
-  if (eventDate > currentDate) {
+let eventDate = data.events[i].date
+let resultado = (currentDate < eventDate)
+  if (resultado === true) {
     let tarjeta = document.createElement("div")
   tarjeta.className = "tarjeta"
   tarjeta.innerHTML = `
