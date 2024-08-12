@@ -194,25 +194,62 @@ const data = {
     },
   ],
 };
-let currentDate = data.currentDate
-for (let i = 0; i < data.events.length; i++) {
-let eventDate = data.events[i].date
-let resultado = (currentDate < eventDate)
-  if (resultado === true) {
-    let tarjeta = document.createElement("div")
-  tarjeta.className = "tarjeta"
-  tarjeta.innerHTML = `
-      <img src="${data.events[i].image}
-      " class="card-img-top" alt="marathon">
+function filtrarevento(busqueda = '') {
+  let currentDate = new Date(data.currentDate);
+  
+  let checkboxes = document.querySelectorAll('.form-check-input');
+  let seleccategoria = Array.from(checkboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+  
+    let filtrandoeventos = data.events.filter(event => {
+      let fechaDeEvento = new Date(event.date); 
+      let fechas = fechaDeEvento < currentDate;
+      let categorias = seleccategoria.length === 0 || seleccategoria.includes(event.category);
+      let busquedas = event.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+      event.description.toLowerCase().includes(busqueda.toLowerCase());
+      return fechas && categorias && busquedas;
+    });
+
+  let contenedor = document.getElementById('contenedor');
+  contenedor.innerHTML = '';
+
+  if (filtrandoeventos.length === 0) {
+    contenedor.innerHTML = '<p class="no-notas">THERE ARE NO EVENTS TO SHOW</p>';
+    return;
+  }
+
+  filtrandoeventos.forEach(event => {
+    let tarjeta = document.createElement('div');
+    tarjeta.className = 'tarjeta';
+    tarjeta.innerHTML = `
+      <img src="${event.image}" class="card-img-top" alt="${event.name}">
       <div class="card-body">
-        <h5 class="card-title">${data.events[i].name}</h5>
-        <p class="card-text">${data.events[i].description}</p>
+        <h5 class="card-title">${event.name}</h5>
+        <p class="card-text">${event.description}</p>
       </div>
       <div class="p-2 d-flex justify-content-between align-items-center">
-          <p class="mb-0">${data.events[i].price + " USD"}</p>
-          <a href="./Details.html" class="btn btn-success">Details</a>
-        </div>
-  `
-contenedor.appendChild(tarjeta)
-  } 
+        <p class="mb-0">${event.price} USD</p>
+        <a href="./details.html?id=${event._id}" class="btn btn-success">Details</a>
+      </div>
+    `;
+    contenedor.appendChild(tarjeta);
+  });
 }
+
+document.querySelector('#buscador form').addEventListener('submit', function(event) {
+  event.preventDefault(); 
+  const searchInput = document.querySelector('#buscador input[type="search"]');
+  const searchTerm = searchInput.value;
+  filtrarevento(searchTerm);
+});
+
+document.querySelectorAll('.form-check-input').forEach(checkbox => {
+  checkbox.addEventListener('change', () => {
+    const searchInput = document.querySelector('#buscador input[type="search"]');
+    const searchTerm = searchInput.value;
+    filtrarevento(searchTerm);
+  });
+});
+
+filtrarevento();

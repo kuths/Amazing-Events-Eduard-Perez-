@@ -194,59 +194,33 @@ const data = {
       },
     ],
   };
-
-function filtrarevento(busqueda = '') {
-  let checkboxes = document.querySelectorAll('.form-check-input');
-  let seleccategoria = Array.from(checkboxes)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => checkbox.value);
-  
-  let filtrandoeventos = data.events.filter(event => {
-    let encontradacategoria = seleccategoria.length === 0 || seleccategoria.includes(event.category);
-    let busquedaencontrada = event.name.toLowerCase().includes(busqueda.toLowerCase()) ||
-    event.description.toLowerCase().includes(busqueda.toLowerCase());
-    return encontradacategoria && busquedaencontrada;
-  });
-  
-  let contenedor = document.getElementById('contenedor');
-  contenedor.innerHTML = '';
-
-  if (filtrandoeventos.length === 0) {
-    contenedor.innerHTML = '<p class="no-notas">THERE ARE NO EVENTS TO SHOW</p>';
-    return;
-  }
-  
-  filtrandoeventos.forEach(event => {
-    let tarjeta = document.createElement('div');
-    tarjeta.className = 'tarjeta'; 
-    tarjeta.innerHTML = `
-      <img src="${event.image}" class="card-img-top" alt="${event.name}">
+document.addEventListener('DOMContentLoaded', () => {
+     let parametro = new URLSearchParams(window.location.search);
+      let eventoId = parametro.get('id');
+      let evento = data.events.find(event => event._id === eventoId);
+      let detailsDiv = document.getElementById('event-details');
+      if (evento) {
+        detailsDiv.className = 'tarjetaDetails';
+        detailsDiv.innerHTML = `      
+    <div class="card mb-3" style="max-width: 76vh;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="${evento.image}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">${event.name}</h5>
-        <p class="card-text">${event.description}</p>
+        <h5 class="card-title">${evento.name}</h5>
+        <p><strong>Date:</strong> ${evento.date}</p>
+        <p class="card-text">${evento.description}</p>
+        <p><strong>Category:</strong> ${evento.category}</p>
+        <p><strong>Place:</strong> ${evento.place}</p>
+        <p><strong>Capacity:</strong> ${evento.capacity}</p>
+        <p><strong>Assistance:</strong> ${evento.assistance}</p>
+        <p><strong>Price:</strong> ${evento.price} USD</p>
       </div>
-      <div class="p-2 d-flex justify-content-between align-items-center">
-        <p class="mb-0">${event.price} USD</p>
-        <a href="./details.html?id=${event._id}" class="btn btn-success">Details</a>
-      </div>
-    `;
-    contenedor.appendChild(tarjeta);
+    </div>
+  </div>
+</div>
+          `;
+      } 
   });
-}
-
-document.querySelector('#buscador form').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-  const searchInput = document.querySelector('#buscador input[type="search"]');
-  const searchTerm = searchInput.value;
-  filtrarevento(searchTerm);
-});
-
-document.querySelectorAll('.form-check-input').forEach(checkbox => {
-  checkbox.addEventListener('change', () => {
-    const searchInput = document.querySelector('#buscador input[type="search"]');
-    const searchTerm = searchInput.value;
-    filtrarevento(searchTerm);
-  });
-});
-
-filtrarevento();
