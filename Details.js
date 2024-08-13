@@ -215,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <p><strong>Category:</strong> ${evento.category}</p>
         <p><strong>Place:</strong> ${evento.place}</p>
         <p><strong>Capacity:</strong> ${evento.capacity}</p>
-        <p><strong>Assistance:</strong> ${evento.assistance}</p>
         <p><strong>Price:</strong> ${evento.price} USD</p>
       </div>
     </div>
