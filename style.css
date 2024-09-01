@@ -16,10 +16,11 @@ table th {
 .subtitle_table {
     text-align: center;
   }
-  table td {
+table td {
     border: solid black 2px;
   height: 2rem;
   }
+
 .medio{
   height: 85vh;
 }
@@ -54,3 +55,8 @@ table th {
     width: 50vh;
     height: 82vh;
 }
+
+.fondo{
+  background-color: antiquewhite;
+}
+
